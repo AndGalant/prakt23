@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Преподаватели{% endblock %}
+{% block content %}
+<h1>Справочник преподавателей</h1>
+
+<form method="post" class="card-form">
+    <input type="text" name="name" placeholder="ФИО" required>
+    <input type="text" name="short_name" placeholder="Кратко (ИВ)" required>
+
+    <div class="color-picker">
+        <label>Цвет преподавателя:</label>
+
+        {% set palette = [
+            ('#E74C3C','Красный'),       ('#C0392B','Тёмно-красный'),  ('#FF6B6B','Коралловый'),   ('#FF8A80','Лососевый'),
+            ('#E91E63','Розовый'),       ('#AD1457','Малиновый'),      ('#F06292','Розовый светлый'), ('#FF80AB','Нежный розовый'),
+            ('#9C27B0','Фиолетовый'),    ('#6A1B9A','Тёмно-фиолетовый'),('#BA68C8','Сирень'),      ('#CE93D8','Лаванда'),
+            ('#3F51B5','Индиго'),        ('#283593','Тёмно-синий'),    ('#7986CB','Васильковый'),  ('#9FA8DA','Голубой светлый'),
+            ('#2196F3','Синий'),         ('#1565C0','Тёмно-синий 2'), ('#64B5F6','Небесный'),     ('#90CAF9','Лазурный'),
+            ('#00BCD4','Циан'),          ('#00838F','Бирюзовый тёмный'),('#4DD0E1','Аква'),        ('#80DEEA','Морская волна'),
+            ('#009688','Бирюзовый'),     ('#00695C','Изумрудный'),     ('#4DB6AC','Мятный'),       ('#80CBC4','Светло-мятный'),
+            ('#4CAF50','Зелёный'),       ('#2E7D32','Тёмно-зелёный'),  ('#81C784','Салатовый'),    ('#A5D6A7','Светло-зелёный'),
+            ('#8BC34A','Лайм'),          ('#558B2F','Оливковый'),      ('#AED581','Светлый лайм'), ('#C5E1A5','Бледно-лайм'),
+            ('#FFC107','Жёлтый'),        ('#FFA000','Янтарный'),       ('#FFD54F','Золотой'),      ('#FFE082','Светло-жёлтый'),
+            ('#FF9800','Оранжевый'),     ('#E65100','Тёмно-оранжевый'),('#FFB74D','Персиковый'),   ('#FFCC80','Абрикосовый'),
+            ('#795548','Коричневый'),    ('#4E342E','Тёмно-коричневый'),('#A1887F','Кофейный'),    ('#D7CCC8','Бежевый')
+        ] %}
+
+        <div class="color-options">
+            {% for hex, name in palette %}
+                <label class="color-swatch" title="{{ name }}">
+                    <input type="radio" name="color" value="{{ hex }}"
+                           {% if loop.first %}checked{% endif %}>
+                    <span style="background: {{ hex }}"></span>
+                </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="subject-picker">
+        <label>Дисциплины:</label>
+        <select name="subject_ids" multiple size="6">
+            {% for s in subjects %}
+                <option value="{{ s.id }}">{{ s.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit">Добавить</button>
+</form>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Цвет</th>
+            <th>ФИО</th>
+            <th>Кратко</th>
+            <th>Дисциплины</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for t in teachers %}
+        <tr>
+            <td><span class="color-dot" style="background: {{ t.color }}"></span></td>
+            <td>{{ t.name }}</td>
+            <td>{{ t.short_name }}</td>
+            <td>{{ t.subjects | map(attribute='name') | join(', ') }}</td>
+            <td>
+                <form method="post"
+                      action="{{ url_for('teachers.delete_teacher', teacher_id=t.id) }}"
+                      onsubmit="return confirm('Удалить преподавателя?');">
+                    <button class="danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

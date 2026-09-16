@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Расписание — {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <a href="{{ url_for('main.index') }}" class="logo">📅 Расписание</a>
+    <nav>
+        <a href="{{ url_for('main.index') }}">Главная</a>
+        <a href="{{ url_for('groups.list_groups') }}">Группы</a>
+        <a href="{{ url_for('teachers.list_teachers') }}">Преподаватели</a>
+        <a href="{{ url_for('subjects.list_subjects') }}">Дисциплины</a>
+    </nav>
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-area">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

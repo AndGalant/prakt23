@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Расписание{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Расписание</h1>
+    <button class="primary" id="addLessonBtn">+ Добавить занятие</button>
+</div>
+
+<div class="schedule-layout">
+
+    <!-- ЛЕВАЯ ЧАСТЬ: таблица расписания -->
+    <div class="schedule-board">
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th class="corner">День</th>
+                    <th class="corner">Пара</th>
+                    {% for g in groups %}
+                        <th>{{ g.name }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for day in days %}
+                {% for pair in pairs %}
+                    <tr>
+                        {% if loop.first %}
+                            <td class="day-cell" rowspan="{{ pairs|length }}">{{ day }}</td>
+                        {% endif %}
+                        <td class="pair-label">{{ pair }} пара</td>
+                        {% for g in groups %}
+                            <td class="slot"
+                                data-group="{{ g.id }}"
+                                data-day="{{ day }}"
+                                data-pair="{{ pair }}"></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ПРАВАЯ ЧАСТЬ: панель преподавателей -->
+    <aside class="teachers-panel">
+        <h2>Преподаватели</h2>
+        {% for t in teachers %}
+            <div class="teacher-item">
+                <div class="teacher-header" style="border-left: 6px solid {{ t.color }};">
+                    <strong>{{ t.short_name }}</strong> — {{ t.name }}
+                </div>
+                <ul class="subject-list">
+                    {% for s in t.subjects %}
+                        <li draggable="true"
+                            data-teacher="{{ t.id }}"
+                            data-subject="{{ s.id }}"
+                            data-color="{{ t.color }}"
+                            data-teacher-short="{{ t.short_name }}"
+                            data-teacher-name="{{ t.name }}"
+                            data-subject-name="{{ s.name }}">
+                            {{ s.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </aside>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div class="modal-overlay" id="lessonModal" hidden>
+    <div class="modal">
+        <h2 id="modalTitle">Добавление занятия</h2>
+
+        <form id="lessonForm">
+            <input type="hidden" id="lessonId">
+
+            <label>Группа:
+                <select id="group_id" required>
+                    {% for g in groups %}
+                        <option value="{{ g.id }}">{{ g.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>День:
+                <select id="day" required>
+                    {% for d in days %}
+                        <option value="{{ d }}">{{ d }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>Преподаватель:
+                <select id="teacher_id" required>
+                    {% for t in teachers %}
+                        <option value="{{ t.id }}">{{ t.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>Дисциплина:
+                <select id="subject_id" required></select>
+            </label>
+
+            <label>1 неделя:
+                <select id="week1_lesson">
+                    <option value="">— нет —</option>
+                    {% for p in pairs %}
+                        <option value="{{ p }}">{{ p }} пара</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>2 неделя:
+                <select id="week2_lesson">
+                    <option value="">— нет —</option>
+                    {% for p in pairs %}
+                        <option value="{{ p }}">{{ p }} пара</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>Кабинет:
+                <select id="classroom_id">
+                    <option value="">— не указан —</option>
+                    {% for c in classrooms %}
+                        <option value="{{ c.id }}">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>Тип занятия:
+                <select id="lesson_type">
+                    <option>Лекция</option>
+                    <option>Практика</option>
+                    <option>Лабораторная</option>
+                    <option>Семинар</option>
+                </select>
+            </label>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary" id="cancelBtn">Отмена</button>
+                <button type="button" class="danger" id="deleteBtn" hidden>Удалить</button>
+                <button type="submit" class="primary" id="saveBtn">Добавить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/schedule.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Группы{% endblock %}
+{% block content %}
+<h1>Справочник групп</h1>
+
+<form method="post" class="card-form">
+    <input type="text" name="name" placeholder="Название (П-21)" required>
+    <input type="text" name="speciality" placeholder="Специальность" required>
+    <input type="number" name="course" placeholder="Курс" min="1" max="6" required>
+    <button type="submit">Добавить</button>
+</form>
+
+<table class="data-table">
+    <thead>
+        <tr><th>Название</th><th>Специальность</th><th>Курс</th><th></th></tr>
+    </thead>
+    <tbody>
+    {% for g in groups %}
+        <tr>
+            <td>{{ g.name }}</td>
+            <td>{{ g.speciality }}</td>
+            <td>{{ g.course }}</td>
+            <td>
+                <form method="post" action="{{ url_for('groups.delete_group', group_id=g.id) }}"
+      onsubmit="return confirm('Удалить группу?');">
+                    <button class="danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

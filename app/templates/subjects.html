@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Дисциплины{% endblock %}
+{% block content %}
+<h1>Справочник дисциплин</h1>
+
+<form method="post" class="card-form">
+    <input type="text" name="name" placeholder="Название" required>
+    <input type="text" name="short_name" placeholder="Сокращение" required>
+    <select name="teacher_id">
+        <option value="">— Преподаватель —</option>
+        {% for t in teachers %}
+            <option value="{{ t.id }}">{{ t.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Добавить</button>
+</form>
+
+<table class="data-table">
+    <thead>
+        <tr><th>Название</th><th>Сокращение</th><th>Преподаватели</th><th></th></tr>
+    </thead>
+    <tbody>
+    {% for s in subjects %}
+        <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.short_name }}</td>
+            <td>{{ s.teachers | map(attribute='short_name') | join(', ') }}</td>
+            <td>
+                <form method="post" action="{{ url_for('subjects.delete_subject', subject_id=s.id) }}"
+      onsubmit="return confirm('Удалить дисциплину?');">
+                    <button class="danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

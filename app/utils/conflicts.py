@@ -13,7 +13,7 @@ def check_conflicts(teacher_id, group_id, classroom_id, day,
         if not pair:
             continue
 
-        # --- Конфликт преподавателя ---
+        # Конфликт преподавателя
         q = Lesson.query.filter_by(teacher_id=teacher_id, day=day)
         q = q.filter(Lesson.week1_lesson == pair) if week_num == "1" \
             else q.filter(Lesson.week2_lesson == pair)
@@ -31,7 +31,7 @@ def check_conflicts(teacher_id, group_id, classroom_id, day,
                 ),
             })
 
-        # --- Конфликт группы ---
+        # Конфликт группы
         q = Lesson.query.filter_by(group_id=group_id, day=day)
         q = q.filter(Lesson.week1_lesson == pair) if week_num == "1" \
             else q.filter(Lesson.week2_lesson == pair)
@@ -49,7 +49,7 @@ def check_conflicts(teacher_id, group_id, classroom_id, day,
                 ),
             })
 
-        # --- Конфликт кабинета ---
+        # Конфликт кабинета
         if classroom_id:
             q = Lesson.query.filter_by(classroom_id=classroom_id, day=day)
             q = q.filter(Lesson.week1_lesson == pair) if week_num == "1" \

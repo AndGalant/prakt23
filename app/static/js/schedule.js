@@ -23,7 +23,6 @@ function renderSchedule() {
         const week2 = l.week2_lesson;
         if (!week1 && !week2) return;
 
-        // Одна карточка может стоять на двух неделях — рисуем в двух ячейках
         if (week1) placeCard(l, week1);
         if (week2) placeCard(l, week2);
     });
@@ -62,7 +61,6 @@ function buildCard(l, pair) {
 
 /* ---------- Drag & Drop ---------- */
 document.addEventListener("dragstart", e => {
-    // Из панели преподавателей
     const li = e.target.closest(".subject-list li");
     if (li) {
         e.dataTransfer.setData("application/json", JSON.stringify({
@@ -72,7 +70,6 @@ document.addEventListener("dragstart", e => {
         }));
         return;
     }
-    // Из существующей карточки
     const card = e.target.closest(".lesson-card");
     if (card) {
         const lesson = state.lessons.find(l => l.id === parseInt(card.dataset.id));
@@ -116,8 +113,6 @@ document.querySelectorAll(".slot").forEach(td => {
             url = "/lessons";
             method = "POST";
         } else if (data.type === "move") {
-            // если раньше стояла на 1-й неделе — двигаем 1-ю,
-            // иначе — 2-ю
             const wasWeek1 = data.week1_lesson === data.fromPair;
             payload = {
                 group_id: groupId,

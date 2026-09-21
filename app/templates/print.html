@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Расписание — печать</title>
+    <style>
+        @page { size: A4 landscape; margin: 10mm; }
+        body { font-family: Arial, sans-serif; font-size: 11px; }
+        h1 { text-align: center; margin-bottom: 10px; }
+        h2 { margin-top: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 10px; }
+        th, td {
+            border: 1px solid #333;
+            padding: 4px 6px;
+            text-align: center;
+            vertical-align: top;
+        }
+        th { background: #eee; }
+        .day { background: #f5f5f5; font-weight: bold; }
+        .pair { background: #f9f9f9; }
+        .lesson { font-size: 10px; line-height: 1.2; }
+    </style>
+</head>
+<body onload="window.print()">
+<h1>Расписание занятий</h1>
+
+{% for g in groups %}
+    <h2>Группа {{ g.name }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>День</th>
+                <th>Пара</th>
+                <th>1-я неделя</th>
+                <th>2-я неделя</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for day in days %}
+            {% for pair in pairs %}
+                {% set w1 = matrix[(g.id, day, pair)][0] %}
+                {% set w2 = matrix[(g.id, day, pair)][1] %}
+                <tr>
+                    {% if loop.first %}
+                        <td class="day" rowspan="{{ pairs|length }}">{{ day }}</td>
+                    {% endif %}
+                    <td class="pair">{{ pair }}</td>
+                    <td class="lesson">
+                        {% if w1 %}
+                            {{ w1.teacher.short_name }} • {{ w1.subject.name }}<br>
+                            каб. {{ w1.classroom.name if w1.classroom else "—" }}
+                        {% else %}—{% endif %}
+                    </td>
+                    <td class="lesson">
+                        {% if w2 %}
+                            {{ w2.teacher.short_name }} • {{ w2.subject.name }}<br>
+                            каб. {{ w2.classroom.name if w2.classroom else "—" }}
+                        {% else %}—{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <div style="page-break-after: always;"></div>
+{% endfor %}
+</body>
+</html>

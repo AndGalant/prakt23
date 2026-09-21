@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Сравнение недель{% endblock %}
+{% block content %}
+<h1>Сравнение расписаний 1-й и 2-й недель</h1>
+
+<div class="legend">
+    <span class="legend-item"><span class="dot only1"></span> Только 1-я неделя</span>
+    <span class="legend-item"><span class="dot only2"></span> Только 2-я неделя</span>
+    <span class="legend-item"><span class="dot same"></span> Совпадает</span>
+    <span class="legend-item"><span class="dot diff"></span> Отличается</span>
+</div>
+
+<h2>Таблица различий</h2>
+<table class="data-table compare-table">
+    <thead>
+        <tr>
+            <th>Группа</th>
+            <th>День</th>
+            <th>Пара</th>
+            <th>Статус</th>
+            <th>Что стоит</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for d in differences %}
+        <tr class="row-{{ d.status }}">
+            <td>{{ d.group }}</td>
+            <td>{{ d.day }}</td>
+            <td>{{ d.pair }}</td>
+            <td>
+                {% if d.status == "only1" %}Только 1-я неделя
+                {% elif d.status == "only2" %}Только 2-я неделя
+                {% elif d.status == "same" %}Совпадает
+                {% elif d.status == "diff" %}Отличается
+                {% endif %}
+            </td>
+            <td>{{ d.text }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h2>Матрица расписания</h2>
+<p class="muted">
+    Сверху — 1-я неделя, снизу — 2-я неделя. Цвет ячейки отражает статус пары.
+</p>
+<table class="data-table compare-matrix">
+    <thead>
+        <tr>
+            <th>Группа</th>
+            <th>День</th>
+            <th>Пара</th>
+            <th>1-я неделя</th>
+            <th>2-я неделя</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for g in groups %}
+        {% for day in days %}
+            {% for pair in pairs %}
+                {% set w1 = matrix[(g.id, day, pair)][0] %}
+                {% set w2 = matrix[(g.id, day, pair)][1] %}
+                <tr>
+                    <td>{{ g.name }}</td>
+                    <td>{{ day }}</td>
+                    <td>{{ pair }}</td>
+                    <td class="cell
+                        {% if w1 and not w2 %}only1
+                        {% elif w1 and w2 and w1.id == w2.id %}same
+                        {% elif w1 and w2 and w1.id != w2.id %}diff
+                        {% endif %}">
+                        {% if w1 %}{{ w1.teacher.short_name }} • {{ w1.subject.short_name }}{% else %}—{% endif %}
+                    </td>
+                    <td class="cell
+                        {% if w2 and not w1 %}only2
+                        {% elif w1 and w2 and w1.id == w2.id %}same
+                        {% elif w1 and w2 and w1.id != w2.id %}diff
+                        {% endif %}">
+                        {% if w2 %}{{ w2.teacher.short_name }} • {{ w2.subject.short_name }}{% else %}—{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

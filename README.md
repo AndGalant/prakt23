@@ -145,9 +145,13 @@ schedule_app/
 **Схема:**
 
 groups ─── lessons ─── teachers
+
 │ │
+
 │ └── teacher_subjects ─── subjects
+
 │
+
 └── classrooms
 
 ---

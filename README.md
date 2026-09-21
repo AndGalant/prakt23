@@ -53,42 +53,76 @@
 ##  Структура проекта
 
 schedule_app/
-├── run.py # точка входа
-├── config.py # конфигурация
-├── requirements.txt # зависимости
-├── .gitignore # исключения для Git
-├── migrations/ # миграции Alembic
-├── instance/
-│ └── schedule.db # база данных SQLite
-└── app/
-├── init.py # фабрика приложения
-├── extensions.py # db, migrate
-├── models.py # модели БД
-├── cli.py # команды flask (init-db)
-├── routes/
-│ ├── init.py
-│ ├── main.py # главная, сравнение, печать
-│ ├── groups.py # справочник групп
-│ ├── teachers.py # справочник преподавателей
-│ ├── subjects.py # справочник дисциплин
-│ └── lessons.py # CRUD занятий
-├── utils/
-│ ├── init.py
-│ └── conflicts.py # проверка конфликтов
-├── static/
-│ ├── css/
-│ │ └── style.css
-│ └── js/
-│ └── schedule.js
-└── templates/
-├── base.html
-├── index.html
-├── groups.html
-├── teachers.html
-├── subjects.html
-├── compare.html
-└── print.html
 
+├── run.py # точка входа
+
+├── config.py # конфигурация
+
+├── requirements.txt # зависимости
+
+├── .gitignore # исключения для Git
+
+├── migrations/ # миграции Alembic
+
+├── instance/
+
+│ └── schedule.db # база данных SQLite
+
+└── app/
+
+├── init.py # фабрика приложения
+
+├── extensions.py # db, migrate
+
+├── models.py # модели БД
+
+├── cli.py # команды flask (init-db)
+
+├── routes/
+
+│ ├── init.py
+
+│ ├── main.py # главная, сравнение, печать
+
+│ ├── groups.py # справочник групп
+
+│ ├── teachers.py # справочник преподавателей
+
+│ ├── subjects.py # справочник дисциплин
+
+│ └── lessons.py # CRUD занятий
+
+├── utils/
+
+│ ├── init.py
+
+│ └── conflicts.py # проверка конфликтов
+
+├── static/
+
+│ ├── css/
+
+│ │ └── style.css
+
+│ └── js/
+
+│ └── schedule.js
+
+└── templates/
+
+├── base.html
+
+├── index.html
+
+├── groups.html
+
+├── teachers.html
+
+├── subjects.html
+
+├── compare.html
+
+└── print.html
 
 ---
 

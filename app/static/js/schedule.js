@@ -132,14 +132,24 @@ document.querySelectorAll(".slot").forEach(td => {
             body: JSON.stringify(payload),
         });
 
+        // Безопасный разбор ответа — сервер может вернуть пустое тело
+        let body = null;
+        try {
+            const text = await res.text();
+            body = text ? JSON.parse(text) : null;
+        } catch (err) {
+            body = null;
+        }
+
         if (res.status === 409) {
-            const body = await res.json();
-            showConflicts(body.conflicts || []);
+            const conflicts = (body && body.conflicts && body.conflicts.length)
+                ? body.conflicts
+                : [{message: "Конфликт расписания (подробности недоступны)"}];
+            showConflicts(conflicts);
             return;
         }
         if (res.status === 400) {
-            const body = await res.json();
-            showError(body.error || "Ошибка");
+            showError(body && body.error ? body.error : "Ошибка запроса");
             return;
         }
         if (!res.ok) {
@@ -153,7 +163,9 @@ document.querySelectorAll(".slot").forEach(td => {
 /* ---------- Уведомления ---------- */
 function showConflicts(conflicts) {
     let text = "⚠ Обнаружены конфликты:\n\n";
-    conflicts.forEach(c => { text += "• " + c.message + "\n"; });
+    conflicts.forEach(c => {
+        text += "• " + (c.message || "Неизвестный конфликт") + "\n";
+    });
     alert(text);
 }
 
@@ -195,7 +207,9 @@ function openModal(lesson = null) {
     }
 }
 
-function closeModal() { modal.hidden = true; }
+function closeModal() {
+    modal.hidden = true;
+}
 
 async function fillSubjects(teacherId, selectedId = null) {
     const sel = document.getElementById("subject_id");
@@ -248,14 +262,24 @@ form.addEventListener("submit", async e => {
         body: JSON.stringify(payload),
     });
 
+    // Безопасный разбор ответа
+    let body = null;
+    try {
+        const text = await res.text();
+        body = text ? JSON.parse(text) : null;
+    } catch (err) {
+        body = null;
+    }
+
     if (res.status === 409) {
-        const body = await res.json();
-        showConflicts(body.conflicts || []);
+        const conflicts = (body && body.conflicts && body.conflicts.length)
+            ? body.conflicts
+            : [{message: "Конфликт расписания (подробности недоступны)"}];
+        showConflicts(conflicts);
         return;
     }
     if (res.status === 400) {
-        const body = await res.json();
-        showError(body.error || "Ошибка");
+        showError(body && body.error ? body.error : "Ошибка запроса");
         return;
     }
     if (!res.ok) {
@@ -270,7 +294,21 @@ form.addEventListener("submit", async e => {
 deleteBtn.addEventListener("click", async () => {
     if (!state.editingId) return;
     if (!confirm("Удалить занятие?")) return;
-    await fetch(`/lessons/${state.editingId}`, {method: "DELETE"});
+
+    const res = await fetch(`/lessons/${state.editingId}`, {method: "DELETE"});
+
+    if (!res.ok) {
+        let body = null;
+        try {
+            const text = await res.text();
+            body = text ? JSON.parse(text) : null;
+        } catch (err) {
+            body = null;
+        }
+        showError(body && body.error ? body.error : "Не удалось удалить занятие");
+        return;
+    }
+
     closeModal();
     await loadLessons();
 });
@@ -282,4 +320,5 @@ document.addEventListener("click", e => {
     if (lesson) openModal(lesson);
 });
 
+/* ---------- Старт ---------- */
 loadLessons();

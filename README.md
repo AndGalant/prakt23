@@ -266,15 +266,13 @@ groups ─── lessons ─── teachers
 <img width="1351" height="768" alt="печать" src="https://github.com/user-attachments/assets/a1063dbb-63c4-4b21-b0e6-e094369170fb" />
 
 
-## 📸 Скриншоты
+##  Скриншоты
 
-*Добавьте скриншоты в папку `docs/screenshots/` и вставьте ссылки:*
-
-1. <img width="1339" height="622" alt="Главный экран" src="https://github.com/user-attachments/assets/adcc4923-b35f-41e0-820e-fe01401f66b1" /> — Главный экран расписания.
-2. <img width="1360" height="565" alt="Группы" src="https://github.com/user-attachments/assets/d893aa59-cf3d-4b4c-a159-626259e5d2f6" /> — Справочник групп.
-3. <img width="1360" height="767" alt="Преподователи" src="https://github.com/user-attachments/assets/43c05932-1031-442b-b1ab-b7bd4817158e" /> — Справочник преподавателей с палитрой цветов.
-4. <img width="1360" height="733" alt="Дисциплины" src="https://github.com/user-attachments/assets/ae935d5d-d507-440d-b2fc-61ff9bba4f46" /> — Справочник дисциплин.
-5. <img width="1360" height="767" alt="3445675446" src="https://github.com/user-attachments/assets/70acb108-45ab-4f66-a3d5-a3447ad5aa62" /> — Форма добавления занятия.
-6. <img width="1360" height="768" alt="9799979696" src="https://github.com/user-attachments/assets/58bfb520-b6f1-4b2f-8eab-ebda58d78adc" /> — Форма редактирования занятия.
-7.  <img width="1360" height="760" alt="546254254245" src="https://github.com/user-attachments/assets/a440ad61-01c0-4771-92c8-0dcdbb4d6d06" /> — сравнение недель.
-8. <img width="1351" height="768" alt="печать" src="https://github.com/user-attachments/assets/399a1266-fe9b-40c3-b532-84f2093b743d" /> — печать расписания.
+1. <img width="1339" height="622" alt="Главный экран" src="https://github.com/user-attachments/assets/adcc4923-b35f-41e0-820e-fe01401f66b1" /> Главный экран расписания.
+2. <img width="1360" height="565" alt="Группы" src="https://github.com/user-attachments/assets/d893aa59-cf3d-4b4c-a159-626259e5d2f6" /> Справочник групп.
+3. <img width="1360" height="767" alt="Преподователи" src="https://github.com/user-attachments/assets/43c05932-1031-442b-b1ab-b7bd4817158e" /> Справочник преподавателей с палитрой цветов.
+4. <img width="1360" height="733" alt="Дисциплины" src="https://github.com/user-attachments/assets/ae935d5d-d507-440d-b2fc-61ff9bba4f46" /> Справочник дисциплин.
+5. <img width="1360" height="767" alt="3445675446" src="https://github.com/user-attachments/assets/70acb108-45ab-4f66-a3d5-a3447ad5aa62" /> Форма добавления занятия.
+6. <img width="1360" height="768" alt="9799979696" src="https://github.com/user-attachments/assets/58bfb520-b6f1-4b2f-8eab-ebda58d78adc" /> Форма редактирования занятия.
+7.  <img width="1360" height="760" alt="546254254245" src="https://github.com/user-attachments/assets/a440ad61-01c0-4771-92c8-0dcdbb4d6d06" /> Сравнение недель.
+8. <img width="1351" height="768" alt="печать" src="https://github.com/user-attachments/assets/399a1266-fe9b-40c3-b532-84f2093b743d" /> Печать расписания.

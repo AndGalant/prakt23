@@ -406,3 +406,8 @@ button.secondary {
     gap: 8px;
     margin-top: 12px;
 }
+.slot.drag-over {
+    background: #e3f2fd;
+    outline: 2px dashed #4A90D9;
+    outline-offset: -2px;
+}
